@@ -1,0 +1,17 @@
+{
+  "name": "wallet-risk-tool",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "vercel dev",
+    "build": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@opensea/tool-sdk": "^0.13.0"
+  },
+  "devDependencies": {
+    "@vercel/node": "^5.1.8",
+    "typescript": "^5.8.3"
+  }
+}
