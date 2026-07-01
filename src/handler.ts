@@ -28,8 +28,8 @@ export async function analyzeWallet(address: string): Promise<RiskResult> {
     etherscanFetch("tokentx", addr),
   ]);
 
-  const txs = txData.result ?? [];
-  const tokens = tokenData.result ?? [];
+  const txs = Array.isArray(txData.result) ? txData.result : [];
+  const tokens = Array.isArray(tokenData.result) ? tokenData.result : [];
 
   // Wallet age: difference between first tx and now
   const firstTx = txs.length > 0 ? Number(txs[0].timeStamp) : Date.now() / 1000;

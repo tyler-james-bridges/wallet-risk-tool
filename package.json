@@ -5,13 +5,18 @@
   "type": "module",
   "scripts": {
     "dev": "vercel dev",
-    "build": "tsc --noEmit"
+    "build": "tsc --noEmit",
+    "test": "tsx --test tests/*.test.ts"
   },
   "dependencies": {
-    "@opensea/tool-sdk": "^0.13.0"
+    "@opensea/tool-sdk": "^0.13.0",
+    "@x402/core": "^2.17.0",
+    "@x402/evm": "^2.17.0",
+    "viem": "^2.54.1"
   },
   "devDependencies": {
     "@vercel/node": "^5.1.8",
+    "tsx": "^4.22.4",
     "typescript": "^5.8.3"
   }
 }
