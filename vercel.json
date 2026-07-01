@@ -4,6 +4,10 @@
     {
       "source": "/.well-known/ai-tool/wallet-risk-score.json",
       "destination": "/api/manifest"
+    },
+    {
+      "source": "/openapi.json",
+      "destination": "/api/openapi"
     }
   ]
 }
