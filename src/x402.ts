@@ -8,8 +8,14 @@ import {
 } from "@x402/core/server";
 import type { Network, PaymentPayload, PaymentRequirements } from "@x402/core/types";
 import { ExactEvmScheme } from "@x402/evm/exact/server";
+import {
+  BUILDER_CODE,
+  builderCodeResourceServerExtension,
+  declareBuilderCodeExtension,
+} from "@x402/extensions/builder-code";
 
 const BASE_NETWORK: Network = "eip155:8453";
+const BASE_BUILDER_CODE = "bc_jhxtiha3";
 const BASE_USDC = "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913";
 const FACILITATOR_URL = process.env.X402_FACILITATOR_BASE || "https://facilitator.payai.network";
 const PAY_TO = process.env.WALLET_RISK_PAY_TO || "0x668aDd9213985E7Fd613Aec87767C892f4b9dF1c";
@@ -79,12 +85,17 @@ async function getServer() {
     serverPromise = (async () => {
       const resourceServer = new x402ResourceServer(
         new HTTPFacilitatorClient({ url: FACILITATOR_URL }),
-      ).register(BASE_NETWORK, makeScheme());
+      )
+        .register(BASE_NETWORK, makeScheme())
+        .registerExtension(builderCodeResourceServerExtension);
       const httpServer = new x402HTTPResourceServer(resourceServer, {
         "POST /api/tool": {
           accepts: [{ scheme: "exact", payTo: PAY_TO, price: "0.10", network: BASE_NETWORK }],
           description: "Wallet Roast: score and roast an Ethereum wallet's onchain behavior.",
           mimeType: "application/json",
+          extensions: {
+            [BUILDER_CODE]: declareBuilderCodeExtension(BASE_BUILDER_CODE),
+          },
           unpaidResponseBody: async () => ({
             contentType: "application/json",
             body: { error: "Payment required", price_usdc: 0.1, network: "base" },
